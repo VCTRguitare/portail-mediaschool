@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : jeu. 30 avr. 2026 à 14:35
+-- Généré le : jeu. 30 avr. 2026 à 15:32
 -- Version du serveur : 9.1.0
 -- Version de PHP : 8.3.14
 
@@ -31,7 +31,7 @@ DROP TABLE IF EXISTS `calendrier`;
 CREATE TABLE IF NOT EXISTS `calendrier` (
   `id_calendrier` int NOT NULL AUTO_INCREMENT,
   `date_debut` date NOT NULL,
-  `date_fin` text COLLATE utf8mb4_bin NOT NULL,
+  `date_fin` date NOT NULL,
   `campus_varchar` varchar(50) COLLATE utf8mb4_bin NOT NULL,
   `id_formation` int NOT NULL,
   PRIMARY KEY (`id_calendrier`),
@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `calendrier` (
 --
 
 INSERT INTO `calendrier` (`id_calendrier`, `date_debut`, `date_fin`, `campus_varchar`, `id_formation`) VALUES
-(1, '2022-09-01', 'ZA02I29292', 'Reims', 5);
+(1, '2022-09-01', '2023-05-19', 'Reims', 5);
 
 -- --------------------------------------------------------
 
@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS `campus` (
 
 INSERT INTO `campus` (`id_campus`, `nom`, `telephone`, `numero_rue`, `rue`, `code_postal`, `ville`) VALUES
 (1, 'IRIS_Reims', '0473840282', 19, 'rue du cadran saint Pierre', '51100', 'Reims'),
-(2, 'IRIS_Paris', '0473840282', 8, 'rue dlzkzppsk', '75100', 'Paris'),
+(2, 'IRIS_Paris', '0473840282', 8, 'rue Bérangère', '75100', 'Paris'),
 (3, 'IRIS_Strasbourg', '0473840282', 63, 'rue Anatole France', '68294', 'Strasbourg');
 
 -- --------------------------------------------------------
@@ -159,8 +159,8 @@ CREATE TABLE IF NOT EXISTS `eleve` (
 --
 
 INSERT INTO `eleve` (`id_eleve`, `nom`, `prenom`, `email`, `telephone`, `mdp`, `civilite`, `date_naissance`, `numero_rue`, `rue`, `code_postal`, `ville`, `diplome`, `cv`, `lettre_motivation`) VALUES
-(1, 'DUTEL', 'Victor', 'victor.dutel@mediaschool.me', '0628038204', 'b92e3496457bb50df1d0fc0aa11fe33b', 'M', '2006-10-01', 6, 'rue de ntm', '51476', 'Villers-Marmery', 'Bac', 'CV', 'Lettre'),
-(3, 'Poupart', 'Kylian', 'kylian.poupart@gmail.net', '0374852945', 'c903c654c97ff8ac53a77ced570d1aaf', 'M', '2025-11-14', 93, 'alfred pennyworth', '25387', 'Reims', 'Bac', 'CV de Kylian', 'OSEF');
+(1, 'DUTEL', 'Victor', 'victor.dutel@mediaschool.me', '0628038204', 'b92e3496457bb50df1d0fc0aa11fe33b', 'M', '2006-10-01', 6, 'rue de Charleville', '51476', 'Villers-Marmery', 'Bac', 'CV_Victor.pdf', 'LettreMotiv.pdf'),
+(3, 'Poupart', 'Kylian', 'kylian.poupart@gmail.net', '0374852945', 'c903c654c97ff8ac53a77ced570d1aaf', 'M', '2025-11-14', 93, 'alfred pennyworth', '25387', 'Reims', 'Bac', 'CVdeKylian.pdf', 'Lettre_motivation.pdf');
 
 -- --------------------------------------------------------
 
@@ -189,9 +189,9 @@ CREATE TABLE IF NOT EXISTS `entreprise` (
 --
 
 INSERT INTO `entreprise` (`id_entreprise`, `nom`, `siret`, `email`, `telephone`, `mdp`, `secteur_activite`, `numero_rue`, `rue`, `code_postal`, `ville`) VALUES
-(1, 'Google', '187327889', 'google@gmail.com', '0938402482', 'b92e3496457bb50df1d0fc0aa11fe33b', 'web', 8, 'izjeffeklz', '63782', 'Paris'),
-(2, 'Amazon', '74126843', 'amazon@gmail.com', '0637299488', 'b92e3496457bb50df1d0fc0aa11fe33b', 'vente en ligne', 84, 'ojEZCOEZcznno', '51100', 'Paris'),
-(3, 'Tesla', '84628828', 'tesla@musk.com', '0835823764', 'b92e3496457bb50df1d0fc0aa11fe33b', 'money, money, money', 8000000, 'Rue je suis riche et pas toi', '35209', 'Je possède des thunes');
+(1, 'Google', '187327889', 'google@gmail.com', '0938402482', 'b92e3496457bb50df1d0fc0aa11fe33b', 'web', 8, 'boulevard Voltaire', '63782', 'Paris'),
+(2, 'Amazon', '74126843', 'amazon@gmail.com', '0637299488', 'b92e3496457bb50df1d0fc0aa11fe33b', 'vente en ligne', 84, 'Avenue des prés fleuris', '51100', 'Paris'),
+(3, 'Tesla', '84628828', 'tesla@musk.com', '0835823764', 'b92e3496457bb50df1d0fc0aa11fe33b', 'voiture électrique', 8000000, 'Rue Elon Musk', '35209', 'San Francisco');
 
 -- --------------------------------------------------------
 
@@ -217,7 +217,7 @@ CREATE TABLE IF NOT EXISTS `formation` (
 --
 
 INSERT INTO `formation` (`id_formation`, `nom`, `niveau`, `duree`, `prix`, `programme_pdf`, `id_campus`) VALUES
-(5, 'BTS SIO', 'Bac +2', 2, 5590.00, 'CEKNZCIEZienciei', 1),
+(5, 'BTS SIO', 'Bac +2', 2, 5590.00, 'Programme_BTS.pdf', 1),
 (6, 'Bachelor', 'Bac +3', 1, 7000.00, 'programme_bachelor.pdf', 2);
 
 -- --------------------------------------------------------
@@ -275,9 +275,9 @@ CREATE TABLE IF NOT EXISTS `offre` (
 
 INSERT INTO `offre` (`id_offre`, `nom`, `type`, `duree`, `unite_duree`, `date_creation`, `description`, `salaire`, `id_entreprise`) VALUES
 (1, 'Développeur', 'Stage', 6, 'M', '2025-11-14 16:39:45', 'venez développer', 2050.00, 1),
-(2, 'Livreur', 'CDI', 0, '0', '2025-11-14 16:39:45', 'jvezivnezcnezioni', 1450.00, 2),
+(2, 'Livreur', 'CDI', 0, '0', '2025-11-14 16:39:45', 'livraison à domicile', 1450.00, 2),
 (4, 'Manager', 'CDD', 3, 'M', '2026-02-18 14:50:21', 'Meneur d\'équipe', 3750.00, 1),
-(5, 'Livreur', 'CDD', 1, 'A', '2026-02-18 14:50:21', '', 0.00, 2),
+(5, 'Livreur', 'CDD', 1, 'A', '2026-02-18 14:50:21', 'Vélo non fourni', 1501.00, 2),
 (6, 'CEO', 'CDI', 10, 'A', '2026-02-18 14:50:21', 'Génie du business', 9999.99, 1),
 (7, 'UI/UX Designer', 'CDD', 2, 'A', '2026-02-19 14:22:26', 'Recherchons UI/UX Designer', 2340.00, 1),
 (11, 'UI/UX Designer', 'CDD', 2, 'A', '2026-02-19 14:22:26', 'Recherchons UI/UX Designer', 2340.00, 1),
@@ -314,8 +314,8 @@ CREATE TABLE IF NOT EXISTS `personnel_mediaschool` (
 --
 
 INSERT INTO `personnel_mediaschool` (`id_personnel`, `nom`, `prenom`, `email`, `telephone`, `mdp`, `civilite`, `date_naissance`, `numero_rue`, `rue`, `code_postal`, `ville`, `id_poste`) VALUES
-(1, 'Broussard', 'Victor', 'victor.broussard@mediaschool.me', '0938402482', 'b92e3496457bb50df1d0fc0aa11fe33b', 'M', '2025-11-12', 9, 'dziesbefenzifneis', '51100', 'Reims', 3),
-(2, 'Fagnière', 'Mickael', 'Micke.fa@mediaschool.me', '0637299488', 'b1376f922a0be205002498095c62e69bdd413c36', 'M', '2025-04-14', 26, 'ciezjeznidznin', '51100', 'Reims', 1);
+(1, 'Broussard', 'Victor', 'victor.broussard@mediaschool.me', '0938402482', 'b92e3496457bb50df1d0fc0aa11fe33b', 'M', '2025-11-12', 9, 'rue François Champoux', '51100', 'Reims', 3),
+(2, 'Fagnière', 'Mickael', 'Micke.fa@mediaschool.me', '0637299488', 'b1376f922a0be205002498095c62e69bdd413c36', 'M', '2025-04-14', 26, 'rue de la Gare', '51100', 'Reims', 1);
 
 -- --------------------------------------------------------
 
