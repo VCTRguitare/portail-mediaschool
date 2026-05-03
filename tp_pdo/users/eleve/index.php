@@ -19,7 +19,7 @@ $resultat_inscription = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $candidatures = "SELECT candidature.*, offre.nom as nom_offre, entreprise.nom as nom_entreprise FROM candidature
 INNER JOIN offre ON offre.id_offre = candidature.id_offre
 INNER JOIN entreprise ON offre.id_entreprise = entreprise.id_entreprise
-WHERE offre.id_entreprise = ? ORDER BY date_candidature DESC;";
+WHERE candidature.id_eleve = ? ORDER BY date_candidature DESC;";
 $stmt = $pdo->prepare($candidatures);
 $stmt->execute([$_SESSION['user'][0]['id_eleve']]);
 $resultat_candidature = $stmt->fetchAll(PDO::FETCH_ASSOC);
